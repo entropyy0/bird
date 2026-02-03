@@ -174,6 +174,7 @@ export async function resolveCredentials(options: {
   chromeProfile?: string;
   firefoxProfile?: string;
   cookieTimeoutMs?: number;
+  credentialSource?: string;
 }): Promise<CookieExtractionResult> {
   const warnings: string[] = [];
   const cookies = buildEmpty();
@@ -188,12 +189,12 @@ export async function resolveCredentials(options: {
 
   if (options.authToken) {
     cookies.authToken = options.authToken;
-    cookies.source = 'CLI argument';
+    cookies.source = options.credentialSource ?? 'CLI argument';
   }
   if (options.ct0) {
     cookies.ct0 = options.ct0;
     if (!cookies.source) {
-      cookies.source = 'CLI argument';
+      cookies.source = options.credentialSource ?? 'CLI argument';
     }
   }
 

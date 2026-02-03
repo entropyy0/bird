@@ -286,11 +286,19 @@ export function createCliContext(normalizedArgs: string[], env: NodeJS.ProcessEn
       : (resolveCookieSourceOrder(config.cookieSource) ?? COOKIE_SOURCES);
     const chromeProfile =
       opts.chromeProfileDir || opts.chromeProfile || config.chromeProfileDir || config.chromeProfile;
+    const authToken = opts.authToken || config.authToken;
+    const ct0 = opts.ct0 || config.ct0;
+    const credentialSource = opts.authToken || opts.ct0
+      ? 'CLI argument'
+      : config.authToken || config.ct0
+        ? 'config'
+        : undefined;
     return resolveCredentials({
-      authToken: opts.authToken || config.authToken,
-      ct0: opts.ct0 || config.ct0,
+      authToken,
+      ct0,
       cookieSource,
       chromeProfile,
+      credentialSource,
       firefoxProfile: opts.firefoxProfile || config.firefoxProfile,
       cookieTimeoutMs: resolveCookieTimeoutFromOptions(opts),
     });
